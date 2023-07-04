@@ -5,4 +5,9 @@ async function create(body, id) {
   return await transactionRepository.create({ ...body, userId: id });
 }
 
-export default { create };
+async function findAllByUser(id) {
+  if (!id) throw new Error("User id is required");
+  return await transactionRepository.findAllByUser(id);
+}
+
+export default { create, findAllByUser };

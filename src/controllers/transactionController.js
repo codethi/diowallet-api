@@ -23,4 +23,29 @@ async function findAllByUser(req, res) {
   }
 }
 
-export default { create, findAllByUser };
+async function update(req, res) {
+  const { id } = req.params;
+  const { _id: userId } = res.locals.user;
+  const body = req.body;
+
+  try {
+    await transactionService.update(id, body, userId);
+    return res.send();
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+}
+
+async function remove(req, res) {
+  const { id } = req.params;
+  const { _id: userId } = res.locals.user;
+
+  try {
+    await transactionService.remove(id, userId);
+    return res.send();
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+}
+
+export default { create, findAllByUser, update, remove };
